@@ -194,7 +194,7 @@ object SparkSQLHistoryParser {
     plan match {
 
       case c: CreateDataSourceTableAsSelectCommand =>
-        val columnList =  toCSColumns(c.table.schema)
+        val columnList = toCSColumns(c.table.schema)
         addTableOrViewLevelObjs(c.table.identifier, outputObjects, columns = columnList, actionType = TableOperationType.CREATE)
         ParseQuery(c.query, inputObjects)
 
@@ -215,7 +215,7 @@ object SparkSQLHistoryParser {
 
       case c: CreateViewCommand =>
         addTableOrViewLevelObjs(c.name, outputObjects, columns = toCSColumnsByNamed(c.output), actionType = TableOperationType.CREATE)
-        ParseQuery(c.child, inputObjects)
+        ParseQuery(c.plan, inputObjects)
 
       case l: LoadDataCommand => addTableOrViewLevelObjs(l.table, outputObjects)
 
