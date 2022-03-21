@@ -29,7 +29,7 @@
 
     <artifactId>linkis-engineplugin-spark</artifactId>
     <properties>
-        <spark.version>2.4.3</spark.version>
+<!--        <spark.version>2.4.3</spark.version>-->
     </properties>
 
     <dependencies>
@@ -318,7 +318,7 @@
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-hive_2.11</artifactId>
+            <artifactId>spark-hive_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
             <scope>provided</scope>
         </dependency>
