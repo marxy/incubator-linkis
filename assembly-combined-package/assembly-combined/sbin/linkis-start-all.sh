@@ -115,7 +115,7 @@ if [ "$ENABLE_METADATA_MANAGER" == "true" ]; then
 
   #linkis-ps-metadatamanager
   SERVER_NAME="ps-metadatamanager"
-  SERVER_IP=$METADATA_MANAGER_PORT
+  SERVER_IP=$METADATA_MANAGER_IP
   startApp
 fi
 
