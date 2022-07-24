@@ -64,17 +64,17 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <skipAssembly>false</skipAssembly>
-                            <finalName>linkis-package</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <attach>false</attach>
-                            <descriptors>
-                                <descriptor>src/main/assembly/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <skipAssembly>false</skipAssembly>
+                    <finalName>linkis-package</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>false</attach>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
             </plugin>
         </plugins>
     </build>

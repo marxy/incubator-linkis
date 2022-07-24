@@ -20,7 +20,6 @@ package org.apache.linkis.engineplugin.spark.factory
 import java.io.File
 import java.lang.reflect.Constructor
 import java.util
-
 import org.apache.linkis.common.conf.CommonVars
 import org.apache.linkis.common.utils.{Logging, Utils}
 import org.apache.linkis.engineconn.common.creation.EngineCreationContext
@@ -86,15 +85,19 @@ class SparkEngineConnFactory extends MultiExecutorEngineConnFactory with Logging
   def createSparkSession(outputDir: File, conf: SparkConf, addPythonSupport: Boolean = false): SparkSession = {
     val execUri = System.getenv("SPARK_EXECUTOR_URI")
     val sparkJars = conf.getOption("spark.jars")
+
     def unionFileLists(leftList: Option[String], rightList: Option[String]): Set[String] = {
       var allFiles = Set[String]()
       leftList.foreach { value => allFiles ++= value.split(",") }
       rightList.foreach { value => allFiles ++= value.split(",") }
-      allFiles.filter { _.nonEmpty }
+      allFiles.filter {
+        _.nonEmpty
+      }
     }
+
     val master = conf.getOption("spark.master").getOrElse(SparkConfiguration.SPARK_MASTER.getValue)
     info(s"------ Create new SparkContext {$master} -------")
-    if(StringUtils.isNotEmpty(master)) {
+    if (StringUtils.isNotEmpty(master)) {
       conf.setMaster(master)
     }
 
@@ -104,7 +107,7 @@ class SparkEngineConnFactory extends MultiExecutorEngineConnFactory with Logging
     } else {
       sparkJars.map(_.split(",")).map(_.filter(_.nonEmpty)).toSeq.flatten
     }
-    if(outputDir != null) {
+    if (outputDir != null) {
       conf.set("spark.repl.class.outputDir", outputDir.getAbsolutePath)
     }
 
@@ -114,6 +117,14 @@ class SparkEngineConnFactory extends MultiExecutorEngineConnFactory with Logging
     conf.set("spark.scheduler.mode", "FAIR")
 
     val builder = SparkSession.builder.config(conf)
+    // org.apache.spark.sql.hive.HiveSessionStateBuilder
+    try {
+      Class.forName("org.apache.spark.sql.hive.HiveSessionStateBuilder", true, getClass.getClassLoader)
+      Class.forName("org.apache.hadoop.hive.conf.HiveConf", true, getClass.getClassLoader)
+      info(s"------ load jars success-------")
+    } catch {
+      case e: Exception => info(s"------ load jars error: $e.getMessage -------")
+    }
     builder.enableHiveSupport().getOrCreate()
   }
 

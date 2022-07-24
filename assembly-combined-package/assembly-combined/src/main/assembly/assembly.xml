@@ -359,7 +359,7 @@
               lib/linkis-public-enhancements/linkis-ps-metadatamanager
           </outputDirectory>
           <includes>
-              <include>**/*</include>
+              <include>**</include>
           </includes>
       </fileSet>
 
